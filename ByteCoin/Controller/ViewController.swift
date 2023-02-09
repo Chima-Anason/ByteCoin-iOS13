@@ -40,11 +40,14 @@ class ViewController: UIViewController,UIPickerViewDataSource, UIPickerViewDeleg
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        //prints coin selected
         print(coinManager.currencyArray[row])
         
         let selectedCurrency = coinManager.currencyArray[row]
         
         coinManager.getCoinPrice(for: selectedCurrency)
+        //make a request and prints the fetched data
+        coinManager.fetchData(for: selectedCurrency)
     }
 
 
