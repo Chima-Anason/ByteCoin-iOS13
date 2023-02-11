@@ -9,7 +9,7 @@
 import UIKit
 
 //Adopt the Coin Manager Protocol
-class ViewController: UIViewController,UIPickerViewDataSource, UIPickerViewDelegate, CoinManagerDelegate {
+class ViewController: UIViewController {
 
     @IBOutlet weak var currencyPicker: UIPickerView!
     @IBOutlet weak var currencyLabel: UILabel!
@@ -29,23 +29,14 @@ class ViewController: UIViewController,UIPickerViewDataSource, UIPickerViewDeleg
         
     }
     
-    //Provide the implementation for the delegate methods.
-    
-    //When the coinManager gets the price it will call this method and pass over the price and currency.
-    func didUpdatePrice(price: String, currency: String) {
-        
-        //Remember that we need to get hold of the main thread to update the UI, otherwise our app will crash if we
-        //try to do this from a background thread (URLSession works in the background).
-        DispatchQueue.main.async {
-            self.bitcoinLabel.text = price
-            self.currencyLabel.text = currency
-        }
-    }
-    
-    func didFailWithError(error: Error) {
-        print(error)
-    }
 
+}
+
+
+
+//MARK: - UIPickerViewDelegate Section
+extension ViewController : UIPickerViewDelegate, UIPickerViewDataSource{
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -65,4 +56,26 @@ class ViewController: UIViewController,UIPickerViewDataSource, UIPickerViewDeleg
 }
 
 
+//MARK: - CoinManagerDelegate Section
+
+extension ViewController : CoinManagerDelegate{
+    
+    //Provide the implementation for the delegate methods.
+    
+    //When the coinManager gets the price it will call this method and pass over the price and currency.
+    func didUpdatePrice(price: String, currency: String) {
+        
+        //Remember that we need to get hold of the main thread to update the UI, otherwise our app will crash if we
+        //try to do this from a background thread (URLSession works in the background).
+        DispatchQueue.main.async {
+            self.bitcoinLabel.text = price
+            self.currencyLabel.text = currency
+        }
+    }
+    
+    func didFailWithError(error: Error) {
+        print(error)
+    }
+    
+}
 
